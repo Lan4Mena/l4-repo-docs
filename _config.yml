@@ -1,0 +1,36 @@
+title: l4 repo docs
+description: l4 repo docs personal y base de documentación replicable.
+logo: "assets/images/l4_repo_docs_logo.svg"
+color_scheme: portafolio
+
+# Tema remoto para GitHub Pages
+remote_theme: just-the-docs/just-the-docs
+
+# Plugins necesarios para compilar en GitHub Pages
+plugins:
+  - jekyll-remote-theme
+
+# Configuración del motor de búsqueda integrado
+search_enabled: true
+search:
+  tokenizer: separator
+  preview_words_before: 5
+  preview_words_after: 5
+
+# Enlaces auxiliares en la barra superior derecha
+aux_links:
+  "GitHub Repository": "https://github.com/Lan4Mena/l4-repo-docs"
+
+# Configuración de URL base para despliegue
+url: ""
+
+# Configuración de diagramas Mermaid
+mermaid:
+  version: "10.1.0"
+
+# Archivos operativos del repositorio que no deben publicarse como páginas del portal
+exclude:
+  - .bundle/
+  - .jekyll-cache/
+  - _site/
+  - vendor/

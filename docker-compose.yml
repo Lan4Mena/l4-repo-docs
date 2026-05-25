@@ -1,0 +1,11 @@
+services:
+  docs:
+    image: ruby:3.3
+    working_dir: /site
+    environment:
+      BUNDLE_PATH: vendor/bundle
+    volumes:
+      - .:/site
+    ports:
+      - "4001:4000"
+    command: bundle exec jekyll serve --host 0.0.0.0

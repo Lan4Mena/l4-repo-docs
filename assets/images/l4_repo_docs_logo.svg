@@ -1,0 +1,13 @@
+<svg width="220" height="60" viewBox="0 0 220 60" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stylized Icon -->
+  <g transform="translate(10, 15)">
+    <!-- Folder shape -->
+    <path d="M0,4 C0,1.8 1.8,0 4,0 L12,0 L18,6 L36,6 C38.2,6 40,7.8 40,10 L40,28 C40,30.2 38.2,32 36,32 L4,32 C1.8,32 0,30.2 0,28 Z" fill="none" stroke="#58a6ff" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- l4 inside folder -->
+    <text x="10" y="22" font-family="monospace" font-size="16" fill="#58a6ff" font-weight="bold">l4</text>
+  </g>
+  <!-- Text -->
+  <text x="60" y="38" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-size="22" fill="#c9d1d9" font-weight="bold">
+    repo <tspan fill="#8b949e" font-weight="normal">docs</tspan>
+  </text>
+</svg>

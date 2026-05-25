@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap");
+
+body {
+  font-family: "Inter", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.site-title {
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+}
+
+.site-logo {
+  background-position: left center;
+  background-size: contain;
+}
+
+.btn {
+  border-radius: 8px;
+}

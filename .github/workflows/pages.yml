@@ -1,0 +1,50 @@
+name: Desplegar GitHub Pages
+
+on:
+  push:
+    branches: ["main"] # Cambia a master si tu rama principal se llama así
+
+  # Permite ejecutar este flujo manualmente desde la pestaña Actions
+  workflow_dispatch:
+
+# Configura los permisos del GITHUB_TOKEN para permitir el despliegue
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita ejecuciones simultáneas colisionando
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generar documentación de Skills
+        run: npx -y tsx scripts/generate-skills-docs.ts
+
+      - name: Configurar Jekyll y compilar
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+
+      - name: Subir artefacto de Pages
+        uses: actions/upload-pages-artifact@v3
+
+      - name: Desplegar a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
