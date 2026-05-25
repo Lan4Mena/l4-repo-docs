@@ -103,6 +103,16 @@ Antes de abrir un Pull Request, valida:
 
 El despliegue productivo se ejecuta automáticamente con GitHub Actions.
 
+### Configuración Inicial de GitHub Pages
+
+Para que el flujo de despliegue automatizado funcione sin errores, es **estrictamente necesario** configurar el origen en GitHub:
+
+1. En GitHub, ve a **Settings** (Configuración) > **Pages**.
+2. En la sección **Build and deployment**, busca la opción **Source** (Origen).
+3. Cambia la selección a **"GitHub Actions"**.
+
+*(Si omites este paso, el workflow fallará con un error `404 Not Found` al intentar publicar el sitio).*
+
 ### Pipeline CI/CD
 
 | Campo | Valor |
@@ -141,7 +151,7 @@ Después de un despliegue exitoso, valida:
 *   La página principal carga correctamente en [https://lan4mena.github.io/l4-repo-docs/](https://lan4mena.github.io/l4-repo-docs/).
 *   La navegación lateral muestra las secciones principales.
 *   El buscador del portal responde.
-*   Los assets de marca, como `assets/images/L4.png`, cargan correctamente.
+*   Los assets de marca, como `assets/images/l4_repo_docs_logo.svg`, cargan correctamente.
 *   Los enlaces modificados en el Pull Request funcionan en el sitio publicado.
 *   Las páginas técnicas principales cargan correctamente:
     *   [Arquitectura](https://lan4mena.github.io/l4-repo-docs/docs/arquitectura)
