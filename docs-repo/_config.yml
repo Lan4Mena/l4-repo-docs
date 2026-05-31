@@ -1,0 +1,52 @@
+title: Portfolio Docs
+description: Portal personal de documentación y referencia Docs-as-Code.
+logo: "docs-repo/assets/images/portfolio_docs_logo.svg"
+color_scheme: portafolio
+
+# Tema remoto para GitHub Pages
+remote_theme: just-the-docs/just-the-docs
+
+# Plugins necesarios para compilar en GitHub Pages
+plugins:
+  - jekyll-remote-theme
+
+# Configuración del motor de búsqueda integrado
+search_enabled: true
+search:
+  tokenizer: separator
+  preview_words_before: 5
+  preview_words_after: 5
+
+# Enlaces auxiliares en la barra superior derecha
+aux_links:
+  "GitHub Repository": "https://github.com/Lan4Mena/l4-repo-docs"
+
+# Configuración de URL base para despliegue
+url: "https://lan4mena.github.io"
+baseurl: "/l4-repo-docs"
+
+# Configuración de diagramas Mermaid
+mermaid:
+  version: "10.1.0"
+
+sass:
+  sass_dir: docs-repo/_sass
+
+# Archivos operativos del repositorio que no deben publicarse como páginas del portal
+exclude:
+  - .bundle/
+  - .jekyll-cache/
+  - .sass-cache/
+  - _site/
+  - vendor/
+  - docs-repo/vendor/
+  - docs-repo/.bundle/
+  - docs-repo/.jekyll-cache/
+  - docs-repo/.sass-cache/
+  - .agents/
+  - .github/
+  - .vscode/
+  - docs-repo/Gemfile
+  - docs-repo/Gemfile.lock
+  - docs-repo/scripts/
+  - docs-repo/docker-compose.yml

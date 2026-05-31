@@ -1,4 +1,11 @@
 .bundle/
 .jekyll-cache/
+.sass-cache/
 _site/
 vendor/
+docs-repo/vendor/
+docs-repo/.bundle/
+docs-repo/.jekyll-cache/
+docs-repo/.sass-cache/
+docs-repo/docs/inteligencia-artificial/skills.md
+docs-repo/docs/pr-templates/

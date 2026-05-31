@@ -29,7 +29,7 @@
 - [ ] Pruebas de desarrollador aplicables ejecutadas.
 - [ ] CI requerido en verde.
 - [ ] Criterios de aceptación revisados.
-- [ ] `README.md`, `/docs` o `/req` actualizado si aplica.
+- [ ] `README.md`, `docs-repo/docs/` o `docs-repo/req/` actualizado si aplica.
 - [ ] Documentación N/A.
 
 ## Aprobaciones

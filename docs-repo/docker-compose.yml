@@ -1,0 +1,12 @@
+services:
+  docs:
+    image: ruby:3.3
+    working_dir: /site
+    environment:
+      BUNDLE_GEMFILE: /site/docs-repo/Gemfile
+      BUNDLE_PATH: vendor/bundle
+    volumes:
+      - ..:/site
+    ports:
+      - "${DOCS_PORT:-4003}:4000"
+    command: bundle exec jekyll serve --config docs-repo/_config.yml --host 0.0.0.0
