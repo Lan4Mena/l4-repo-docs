@@ -10,92 +10,81 @@ permalink: /docs/inteligencia-artificial/agents/
 
 Instrucciones para agentes de código que trabajen en este repositorio.
 
-## Resumen del proyecto
+## Resumen
 
-Este repositorio contiene el portal central de documentación de l4 repo docs. Es un sitio estático construido con Jekyll y el tema Just the Docs, publicado con GitHub Pages.
+Este repositorio contiene un portal personal de documentación Docs-as-Code construido con Jekyll y Just the Docs, publicado con GitHub Pages.
 
-La documentación sigue el modelo Docs-as-Code:
+La documentación publicada y su soporte técnico viven dentro de `docs-repo/`:
 
 - `README.md`: entrada del repositorio en GitHub.
-- `index.md`: página inicial publicada del portal.
-- `como-documentar.md`: estándar l4 repo docs para documentación de repositorios.
-- `docs/`: documentación técnica del portal.
-- `procesos/`: procesos transversales.
-- `req/`: requerimientos, historias y casos de uso.
-- `onboarding/`: guía inicial para colaboradores.
+- `docs-repo/index.md`: página inicial publicada.
+- `docs-repo/como-documentar.md`: estándar personal para documentar repositorios.
+- `docs-repo/docs/`: documentación técnica.
+- `docs-repo/procesos/`: procesos reutilizables.
+- `docs-repo/req/`: requerimientos, historias y casos de uso.
+- `docs-repo/onboarding/`: guía inicial.
+- `docs-repo/_config.yml`, `docs-repo/Gemfile`, `docs-repo/docker-compose.yml`, `docs-repo/_sass/`, `docs-repo/assets/` y `docs-repo/scripts/`: soporte Jekyll.
+- `.agents/skills/portafolio-documentation/SKILL.md`: skill local de documentación.
 
-## Comandos de desarrollo
-
-Usa el servicio `docs` definido en `docker-compose.yml`:
-
-```bash
-docker compose run --rm docs bundle install
-docker compose run --rm docs bundle exec jekyll build
-docker compose up docs
-```
-
-El sitio local queda disponible en `http://localhost:4000`.
-
-Si Docker no está disponible, puedes usar Bundler localmente siempre que el entorno Ruby sea compatible con `github-pages`:
+## Comandos
 
 ```bash
-bundle install
-bundle exec jekyll build
-bundle exec jekyll serve
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-skills-docs.ts
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-pr-template-docs.ts
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle install
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle exec jekyll build --config docs-repo/_config.yml
+docker compose -f docs-repo/docker-compose.yml up docs
 ```
 
-## Convenciones de documentación
+El sitio local queda disponible en `http://localhost:4003/l4-repo-docs/`. Si el puerto está ocupado, usa:
+
+```bash
+DOCS_PORT=4004 docker compose -f docs-repo/docker-compose.yml up docs
+```
+
+## Convenciones
 
 - Mantén Markdown simple y compatible con Jekyll.
-- Cada página publicada debe tener frontmatter YAML válido con `layout: default`, `title` y, cuando aplique, `nav_order`, `parent`, `has_children` o `permalink`.
-- Usa rutas relativas para enlaces internos.
-- No dupliques contenido global; enlaza a la fuente principal.
-- Documenta comandos reales del repositorio, no pasos genéricos.
-- Si cambias despliegue, dependencias, workflows, contenedores, rutas, assets o configuración de Jekyll, actualiza `docs/despliegue.md` en el mismo cambio.
-- Si agregas una página navegable, actualiza el índice correspondiente y valida que aparezca en la navegación de Just the Docs.
+- Usa frontmatter YAML válido en páginas publicadas.
+- Usa rutas relativas para enlaces internos cuando sea posible.
+- No dupliques contenido; enlaza a la fuente principal.
+- Actualiza `docs-repo/docs/despliegue.md` si cambias workflow, Docker, dependencias, rutas, assets o configuración Jekyll.
+- Actualiza el índice correspondiente al agregar, renombrar o mover páginas publicadas.
+- No edites manualmente `docs-repo/docs/inteligencia-artificial/skills.md`; se genera desde `.agents/skills/**/SKILL.md`.
+- No edites manualmente `docs-repo/docs/pr-templates/`; se genera desde `.github/PULL_REQUEST_TEMPLATE/**`.
 
-## Inteligencia Artificial, AGENTS.md y skills
+## Agent Skills
 
-- Sigue la guía publicada en `docs/inteligencia-artificial/index.md`.
-- La organización implementa `AGENTS.md` y Agent Skills con base en estándares abiertos, no en una especificación interna propia.
-- `AGENTS.md` debe contener instrucciones operativas para agentes: estructura, comandos, estilo, validación, seguridad y criterios de PR.
-- Los Agent Skills deben vivir en una carpeta con un `SKILL.md` que incluya frontmatter YAML con `name` y `description`.
-- El `name` de un skill debe coincidir con el nombre de su carpeta y usar solo minúsculas, números y guiones.
-- Mantén cada `SKILL.md` enfocado. Mueve material largo a `references/`, scripts reutilizables a `scripts/` y plantillas o recursos a `assets/`.
+- Cada skill vive en `.agents/skills/<skill-name>/SKILL.md`.
+- El `name` debe coincidir con la carpeta y usar minúsculas, números y guiones.
+- Cada `SKILL.md` debe declarar `name` y `description`.
+- Mantén los skills enfocados. Usa `references/`, `scripts/` y `assets/` cuando el contenido crezca.
 
 ## Seguridad
 
-- Nunca agregues secretos, tokens, contraseñas, archivos `.env` reales ni credenciales.
-- Usa ejemplos como `.env.example` cuando haga falta documentar variables.
-- No publiques información interna sensible en páginas que se despliegan públicamente con GitHub Pages.
-- Antes de enlazar un repositorio desde `docs/repositorios.md`, verifica que la documentación publicada sea adecuada para el nivel de visibilidad del repositorio.
+- No agregues secretos, tokens, contraseñas, `.env` reales ni credenciales.
+- Usa `.env.example` cuando necesites documentar variables.
+- No publiques datos personales sensibles.
 
-## Verificación antes de finalizar
+## Verificación
 
-Para cambios de Markdown, normalmente basta con recargar el portal local y revisar visualmente la página modificada.
-
-Si el servidor local no está levantado, usa:
+Para cambios de estructura, configuración o navegación:
 
 ```bash
-docker compose up docs
-```
-
-Ejecuta build solo cuando el cambio toque configuración, navegación, dependencias, Mermaid complejo o estructura publicada:
-
-```bash
-docker compose run --rm docs bundle exec jekyll build
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-skills-docs.ts
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-pr-template-docs.ts
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle exec jekyll build --config docs-repo/_config.yml
 ```
 
 Revisa que:
 
-- Las páginas nuevas o modificadas aparecen en la navegación esperada.
-- Los enlaces internos resuelven correctamente.
-- Los diagramas Mermaid renderizan sin errores.
-- No se generaron cambios innecesarios en `_site/`, `.bundle/` o `vendor/`.
+- Las páginas aparezcan en la navegación esperada.
+- Los enlaces internos, anchors y enlaces externos agregados resuelvan sin escapar de `/l4-repo-docs/`.
+- Mermaid renderice sin errores.
+- No se versionen `_site/`, `vendor/`, `.bundle/`, `.jekyll-cache/`, `.sass-cache/` ni páginas generadas.
 
 ## Pull Requests
 
 - Mantén los cambios acotados al tema del Pull Request.
-- Incluye documentación junto con cambios que modifiquen procesos, despliegue o estructura del portal.
-- No mezcles refactors de formato con cambios de contenido salvo que sea necesario.
-- Indica en el PR qué validación ejecutaste.
+- Incluye documentación cuando cambies estructura, publicación o procesos.
+- Indica qué validación ejecutaste.

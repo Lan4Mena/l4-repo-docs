@@ -1,103 +1,118 @@
 ---
 name: portafolio-documentation
-description: Usar al crear, revisar o actualizar documentación de repositorios l4 repo docs, incluyendo README.md, index.md, AGENTS.md, docs/, req/, procesos/, docs/repositorios.md, navegación Jekyll, enlaces GitHub Pages y Agent Skills.
+description: Usar al crear, revisar o actualizar documentación Docs-as-Code de repositorios personales con Jekyll/Just the Docs, README.md, AGENTS.md, docs-repo/, navegación publicada, GitHub Pages, validación local Docker/Jekyll y Agent Skills.
 ---
 
-# Documentación l4 repo docs
+# Documentación de Portafolio
 
-Usa este skill para documentar repositorios l4 repo docs de forma consistente con el portal central de documentación.
+Usa este skill para mantener documentación personal consistente, versionada y publicable.
 
-## Instalación Global Recomendada
+La documentación es Docs-as-Code: vive junto al código, se versiona en Git y se revisa en Pull Requests igual que el código.
 
-Para facilitar la documentación de tus repositorios locales siguiendo los lineamientos de l4 repo docs y permitir su prueba local, se recomienda instalar esta skill de manera global en tu máquina.
+## Principios
 
-### Pasos para la instalación global:
+- Mantén en cada repositorio solo la documentación que aporta contexto real: arquitectura, despliegue, repositorios relacionados, requerimientos y procesos locales.
+- No dupliques contenido. Enlaza a la fuente principal cuando ya exista.
+- No crees páginas para explicar datos evidentes del repositorio.
+- Mantén la documentación publicada dentro de `docs-repo/`.
 
-1. Crea el directorio de configuración global de skills para tu agente de IA (por ejemplo, en Gemini/Antigravity):
-   ```bash
-   mkdir -p ~/.gemini/config/skills/portafolio-documentation
-   ```
-2. Copia el contenido de la carpeta `.agents/skills/portafolio-documentation` de este repositorio a tu directorio global:
-   ```bash
-   cp -r .agents/skills/portafolio-documentation/* ~/.gemini/config/skills/portafolio-documentation/
-   ```
+## Estructura
 
-Esto habilitará la skill `portafolio-documentation` globalmente, permitiendo que tu agente la utilice de forma transparente en cualquier otro repositorio.
-
-## Modelo Base
-
-La documentación l4 repo docs es centralizada y distribuida:
-
-- El portal central define estándares transversales, procesos, onboarding, referencias de IA e inventario completo de repositorios l4 repo docs.
-- Cada repositorio mantiene la documentación que cambia con su código: arquitectura, despliegue, repositorios relacionados, requerimientos y procesos locales.
-
-Evita duplicar contenido canónico. Enlaza a la página canónica cuando la información ya exista.
-
-## Estructura Recomendada
-
-Para un repositorio l4 repo docs, prefiere esta estructura:
+Prefiere esta estructura, creando carpetas opcionales solo cuando apliquen:
 
 ```text
 repository/
 ├── README.md
 ├── AGENTS.md
-├── index.md
-├── docs/
+├── docs-repo/
 │   ├── index.md
-│   ├── arquitectura.md
-│   ├── despliegue.md
-│   └── repositorios.md
-├── req/
-├── procesos/
-└── .agents/
-    └── skills/
-        └── skill-name/
-            └── SKILL.md
+│   ├── Gemfile
+│   ├── Gemfile.lock
+│   ├── _config.yml
+│   ├── docker-compose.yml
+│   ├── scripts/
+│   │   ├── generate-skills-docs.ts
+│   │   └── generate-pr-template-docs.ts
+│   ├── _sass/
+│   ├── assets/
+│   ├── req/
+│   ├── procesos/
+│   └── docs/
+├── .github/
+│   ├── workflows/docs.yml
+│   └── PULL_REQUEST_TEMPLATE/*.md
+└── .agents/skills/<skill-name>/SKILL.md
 ```
 
-Crea carpetas opcionales solo cuando apliquen. No inventes requerimientos, procesos o skills solo para llenar la estructura.
+No inventes `docs-repo/req/`, `docs-repo/procesos/`, `.agents/skills/`, `.github/` ni `docs-repo/scripts/` solo para llenar estructura.
 
-## Responsabilidades por Archivo
+## Responsabilidades
 
-- `README.md`: entrada del repositorio en GitHub. Debe ser breve y enlazar a la documentación publicada y documentos clave.
-- `index.md`: página inicial publicada de la documentación del repositorio.
-- `AGENTS.md`: instrucciones operativas para agentes de código que trabajen en el repositorio.
-- `docs/index.md`: índice técnico y entrada de navegación.
-- `docs/arquitectura.md`: arquitectura, componentes, decisiones, diagramas, límites y dependencias que requieren explicación.
-- `docs/despliegue.md`: ambientes, validación local, CI/CD, despliegue, verificación, rollback y relación implementación-documentación.
-- `docs/repositorios.md`: repositorios relacionados, dependencias, proveedores, consumidores, integraciones o infraestructura relacionada. Solo en el portal central representa el inventario completo l4 repo docs.
-- `req/`: requerimientos de negocio, casos de uso, historias de usuario, criterios de aceptación y reglas.
-- `procesos/`: procesos propios del repositorio. Enlaza al proceso central cuando el estándar sea suficiente.
-- `.agents/skills/<skill-name>/SKILL.md`: Agent Skill reutilizable. La carpeta y el campo `name` deben coincidir.
+- `README.md`: entrada breve del repositorio en GitHub.
+- `AGENTS.md`: instrucciones operativas para agentes.
+- `docs-repo/index.md`: inicio publicado del sitio.
+- `docs-repo/docs/index.md`: índice técnico publicado.
+- `docs-repo/docs/arquitectura.md`: componentes, decisiones, diagramas Mermaid, límites y dependencias.
+- `docs-repo/docs/despliegue.md`: ambientes, validación local, CI/CD, publicación, verificación y rollback.
+- `docs-repo/docs/repositorios.md`: repositorios relacionados o proyectos incluidos en el portafolio.
+- `docs-repo/docs/inteligencia-artificial/index.md`: índice de instrucciones para agentes y skills locales.
+- `.agents/skills/<skill-name>/SKILL.md`: skill reutilizable. La carpeta y el campo `name` deben coincidir.
+- `.github/PULL_REQUEST_TEMPLATE/*.md`: plantillas operativas de PR cuando apliquen.
 
-## Flujo de Trabajo
-
-1. Inspecciona los archivos existentes antes de editar. Respeta la navegación y nombres ya usados en el repositorio.
-2. Identifica la fuente canónica de cada información. Mueve o enlaza en lugar de duplicar.
-3. Actualiza los índices cuando agregues, renombres o muevas páginas publicadas.
-4. Usa enlaces relativos para Markdown interno, excepto enlaces publicados del portal que intencionalmente apunten a GitHub Pages.
-5. En diagramas Mermaid, usa etiquetas entre comillas cuando los nodos tengan rutas, puntos o puntuación que pueda romper Mermaid 10.1.0.
-6. Para cambios solo de Markdown, la verificación normal es recargar la página local e inspeccionar el render.
-7. Ejecuta build de Jekyll solo cuando cambie configuración, navegación, dependencias, páginas con Mermaid complejo o comportamiento de publicación.
-
-## Revisión de Enlaces y Duplicación
-
-Antes de finalizar, revisa:
-
-- Ningún enlace interno apunta a archivos removidos o renombrados.
-- Las etiquetas de navegación coinciden con los títulos, especialmente `Catálogo de Repositorios`.
-- Las páginas ocultas o históricas no duplican estándares activos; deben apuntar a páginas canónicas.
-- `docs/repositorios.md` describe repositorios relacionados en repos normales y todos los repos l4 repo docs solo en el portal central.
-- Los comandos de despliegue y detalles de CI viven en `docs/despliegue.md`, no dispersos en varias páginas.
-- El lenguaje de negocio y criterios de aceptación viven en `req/`; el flujo de entrega vive en `procesos/`.
-
-## Reglas para Agent Skills
-
-Al crear un skill:
+## Agent Skills
 
 - Usa `.agents/skills/<skill-name>/SKILL.md`.
-- Incluye frontmatter YAML con `name` y `description`.
-- Usa minúsculas, números y guiones para la carpeta y el campo `name`.
-- Mantén `SKILL.md` conciso y procedural.
-- Coloca material largo en `references/`, scripts reutilizables en `scripts/` y plantillas o assets en `assets/`.
-- No agregues archivos auxiliares como README, changelog o guías de instalación salvo que el usuario lo pida explícitamente.
+- `name` debe coincidir con la carpeta.
+- Usa minúsculas, números y guiones.
+- Incluye `description` clara sobre cuándo debe activarse.
+- Mantén cada `SKILL.md` enfocado.
+- No edites manualmente `docs-repo/docs/inteligencia-artificial/skills.md`; debe generarse durante el pipeline.
+- No edites manualmente `docs-repo/docs/pr-templates/`; debe generarse desde `.github/PULL_REQUEST_TEMPLATE/**`.
+
+## Validación Local
+
+Ejecuta primero los generadores que apliquen y luego valida Jekyll con Docker Compose:
+
+```bash
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-skills-docs.ts
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-pr-template-docs.ts
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle install
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle exec jekyll build --config docs-repo/_config.yml
+docker compose -f docs-repo/docker-compose.yml up docs
+```
+
+Configura `url` y `baseurl` en `docs-repo/_config.yml` para GitHub Pages de proyecto:
+
+```yaml
+url: "https://<usuario>.github.io"
+baseurl: "/<repositorio>"
+```
+
+Mantén el mismo `baseurl` en local y producción. Usa `4003` como puerto local por defecto y revisa el sitio en `http://localhost:4003/<repositorio>/`. Si está ocupado:
+
+```bash
+DOCS_PORT=4004 docker compose -f docs-repo/docker-compose.yml up docs
+```
+
+## GitHub Pages
+
+Si el repositorio publica documentación:
+
+- Dispara el workflow solo desde `main` y con `workflow_dispatch` cuando aplique.
+- Limita `paths` a documentación, `README.md`, `AGENTS.md`, skills, plantillas de PR y el workflow.
+- Usa Node 22 para generadores.
+- Ejecuta los mismos generadores de skills y PR templates en local y en el workflow cuando apliquen.
+- Usa Ruby 3.3 con cache de Bundler.
+- Usa `actions/configure-pages`, `bundle exec jekyll build`, `actions/upload-pages-artifact` y `actions/deploy-pages`.
+
+## Revisión Final
+
+Antes de terminar:
+
+- Ningún enlace interno apunta a archivos removidos, renombrados o fuentes `.md` no publicadas.
+- Las rutas internas respetan el `baseurl` del repositorio.
+- Cuando cambien navegación, `baseurl`, permalinks, índices, generadores o estructura publicada, recorre el sitio servido localmente: valida destinos internos, anchors y enlaces externos agregados.
+- `README.md` es breve.
+- La guía de despliegue concentra comandos reales de validación local y CI/CD.
+- El índice principal refleja la navegación real.
+- No se versionan `_site/`, `vendor/`, `.bundle/`, `.jekyll-cache/`, `.sass-cache/`, `docs-repo/docs/inteligencia-artificial/skills.md`, `docs-repo/docs/pr-templates/` ni otras páginas generadas.

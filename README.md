@@ -5,58 +5,38 @@ nav_order: 2
 permalink: /readme/
 ---
 
-# l4 repo docs - Portal
+# Portfolio Docs
 
-Este repositorio aloja el portal central de documentación y conocimiento de la organización. El sitio web está compilado con **Jekyll** y utiliza el tema **Just the Docs**, desplegándose automáticamente a través de **GitHub Pages**.
+Este repositorio contiene mi portal personal de documentación y referencia técnica. El sitio se construye con **Jekyll**, utiliza el tema **Just the Docs** y se publica automáticamente con **GitHub Pages**.
 
-Este repositorio implementa las prácticas de documentación: usa `README.md` como entrada del repositorio en GitHub, `index.md` como Inicio del portal publicado, `/docs` para documentación técnica, `/procesos` para flujos de trabajo y `/req` para documentación de negocio.
-La intención es que sirva como referencia replicable para otros repositorios l4 repo docs.
+La documentación sigue un modelo Docs-as-Code: se versiona en Git, se revisa mediante Pull Requests y mantiene separadas la entrada del repositorio y las páginas publicadas dentro de `docs-repo/`.
 
-## Índice del repositorio
+## Navegación
 
-Este índice refleja la jerarquía del menú principal del portal publicado:
-
-*   **[Inicio](index.md):** Punto de entrada del portal publicado e índice principal.
-*   **[¿Cómo Documentar?](como-documentar.md):** Estándar para documentar repositorios l4 repo docs.
-*   **[Documentación Técnica](docs/index.md):** Entrada a la documentación técnica propia del portal.
-    *   [Arquitectura](docs/arquitectura.md): Modelo centralizado y distribuido, componentes, flujo de publicación y decisiones técnicas.
-    *   [Despliegue](docs/despliegue.md): Validación local, ambientes y despliegue en GitHub Pages.
-    *   [Catálogo de Repositorios](docs/repositorios.md): Inventario central de repositorios l4 repo docs y enlaces a sus GitHub Pages.
-    *   [Inteligencia Artificial](docs/inteligencia-artificial/): Implementación organizacional basada en estándares abiertos para `AGENTS.md` y Agent Skills.
-*   **[Procesos](procesos/index.md):** Procesos transversales de colaboración entre Producto y TI.
-    *   [GitHub Flow](procesos/github-flow.md): Flujo de trabajo para ramas, commits, Pull Requests y merges.
-*   **[Requerimientos de Negocio](req/index.md):** Guías para documentar requerimientos funcionales.
-    *   [Plantilla de Caso de Uso](req/CASO_USO_TEMPLATE.md): Estructura base para casos de uso.
-    *   [Criterios de Aceptación](req/criterios-aceptacion.md): Guía para definir validaciones de negocio.
-    *   [Historia de Usuario](req/historia-usuario.md): Estructura y estados de una historia de usuario.
-*   **[Onboarding](onboarding/index.md):** Guía inicial para accesos, herramientas y entorno local.
-
----
+*   **[Inicio](/l4-repo-docs/):** Punto de entrada del portal.
+*   **[¿Cómo Documentar?](/l4-repo-docs/como-documentar.html):** Convenciones para documentar repositorios personales.
+*   **[Documentación Técnica](/l4-repo-docs/docs/):** Arquitectura, despliegue y catálogo de proyectos.
+    *   [Arquitectura](/l4-repo-docs/docs/arquitectura.html)
+    *   [Despliegue](/l4-repo-docs/docs/despliegue.html)
+    *   [Catálogo de Repositorios](/l4-repo-docs/docs/repositorios/)
+    *   [Inteligencia Artificial](/l4-repo-docs/docs/inteligencia-artificial/)
+    *   [Plantillas de Pull Request](/l4-repo-docs/docs/pr-templates/)
+*   **[Procesos](/l4-repo-docs/procesos/):** Flujos de trabajo reutilizables.
+*   **[Requerimientos](/l4-repo-docs/req/):** Guías para historias, casos de uso y criterios de aceptación.
+*   **[Onboarding](/l4-repo-docs/onboarding/):** Configuración inicial para reutilizar este portal.
 
 ## Desarrollo local
 
-La validación local se ejecuta con el servicio `docs` definido en `docker-compose.yml`:
-
 ```bash
-docker compose run --rm docs bundle install
-docker compose run --rm docs bundle exec jekyll build
-docker compose up docs
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-skills-docs.ts
+node --disable-warning=ExperimentalWarning --experimental-strip-types docs-repo/scripts/generate-pr-template-docs.ts
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle install
+docker compose -f docs-repo/docker-compose.yml run --rm docs bundle exec jekyll build --config docs-repo/_config.yml
+docker compose -f docs-repo/docker-compose.yml up docs
 ```
 
-El detalle operativo se documenta como parte del ambiente **Local** en la guía de **[Despliegue](docs/despliegue.md)**.
-
----
+El sitio local queda disponible en `http://localhost:4003/l4-repo-docs/`.
 
 ## Despliegue
 
-Cualquier cambio fusionado en la rama `main` iniciará automáticamente el workflow de GitHub Actions (`.github/workflows/pages.yml`), compilando y desplegando el nuevo sitio estático en el entorno de GitHub Pages.
-
-La guía operativa de este repositorio vive en **[docs/despliegue.md](docs/despliegue.md)**. Si cambia el workflow, la configuración de Jekyll, los ambientes, los assets requeridos por el build o la forma de validar localmente, esa guía debe actualizarse en el mismo Pull Request.
-
----
-
-## Colaboración
-
-1. Realiza tus cambios en una nueva rama en este repositorio.
-2. Envía un **Pull Request**.
-3. Al aprobarse y fusionarse en la rama `main`, los cambios se compilarán y desplegarán automáticamente.
+Los cambios fusionados en `main` ejecutan `.github/workflows/docs.yml` y publican el sitio en GitHub Pages. La operación detallada vive en [Despliegue](/l4-repo-docs/docs/despliegue.html).
